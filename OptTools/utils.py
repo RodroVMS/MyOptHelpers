@@ -47,7 +47,9 @@ def display_table(table, base, next_vect = None, out_vect = None, slacks = 0):
     
     df = pd.DataFrame(d)
     if next_vect is not None and out_vect is not None:
-        print(f"In . Out x{out_vect + 1}.")
+        next_name = f"x{next_vect + 1}" if next_vect < len(table[0]) -1 -slacks else f"s{next_vect - len(table[0]) + slacks + 2}"
+        out_name = f"x{out_vect + 1}" if out_vect < len(table[0]) -1 -slacks else f"s{out_vect - len(table[0]) + slacks + 2}"
+        print(f"In {next_name}. Out {out_name}.")
     print(df.to_string(index=False), "\n")
 
 def is_feasible_simplex(table) -> bool:

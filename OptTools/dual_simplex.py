@@ -1,5 +1,5 @@
 from typing import Tuple
-from utils import display_table, is_feasible_dual_simplex, update_table
+from .utils import display_table, is_feasible_dual_simplex, update_table
 
 # Table:
 # Xb | x1 | ... | xn | y0

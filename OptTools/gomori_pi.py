@@ -1,6 +1,6 @@
-from dual_simplex import dual_simplex
-from simplex import simplex
-from utils import add_condition_to_table, display_table, get_decimals, is_feasible_dual_simplex, is_feasible_simplex, pure_integer_vector
+from .dual_simplex import dual_simplex
+from .simplex import simplex
+from .utils import add_condition_to_table, display_table, get_decimals, is_feasible_dual_simplex, is_feasible_simplex, pure_integer_vector
 
 
 def gomori_pi(table, base, display = True, slacks = 0):

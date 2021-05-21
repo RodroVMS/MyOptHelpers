@@ -1,4 +1,4 @@
-from utils import is_feasible_simplex, update_table, display_table
+from .utils import is_feasible_simplex, update_table, display_table
 
 # Table:
 # Xb | x1 | ... | xn | y0
@@ -27,7 +27,7 @@ def simplex(table, base, display=True, slacks = 0):
     if display:
         display_table(table, base, next_vect, dummy, slacks)
     
-    return simplex(table, base, slacks)
+    return simplex(table, base, display, slacks=slacks)
     
 def next_vector(table, base):
     minimum_ind = -1
