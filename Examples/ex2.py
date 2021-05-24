@@ -35,4 +35,4 @@ print("First Phase")
 display_table(table_3, base_3, slacks=3)
 table_3, base_3, result = pep(table_3, base_3, True, slacks=3)
 
-print("First Phase value minimum value is non zero, the problem cannot be solved")
+print("First Phase minimum value is non zero due to s2 != 0. The problem cannot be solved")

@@ -60,7 +60,7 @@ def is_feasible_dual_simplex(table) -> bool:
 
 def pure_integer_vector(y0):
     for val in y0:
-        if val != np.floor(val):
+        if val - np.floor(val) >=  1e-9:
             return False
     return True
 
