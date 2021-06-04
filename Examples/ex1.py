@@ -1,4 +1,4 @@
-from ..OptTools import gomori_pi, pep, display_table
+from ..OptTools import gomori_pi, pep, display_table, get_basic_solution
 import numpy as np
 
 
@@ -19,7 +19,9 @@ base_2 = base_1.copy()
 print("Solving with Gomori")
 display_table(table_1, base_1, slacks=slacks)
 table_1, base_1, result = gomori_pi(table_1, base_1, True, slacks)
+print(get_basic_solution(table_1, base_1))
 
 print("\nSolving with pep")
 display_table(table_2, base_2, slacks=slacks)
 table_2, base_2, result = pep(table_2, base_2, True, slacks)
+print(get_basic_solution(table_2, base_2))

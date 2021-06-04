@@ -1,4 +1,4 @@
-from ..OptTools import pep, display_table
+from ..OptTools import pep, display_table, get_basic_solution
 import numpy as np
 
 table_1 = np.array(
@@ -16,6 +16,7 @@ print("First Phase")
 display_table(table_1, base_1, slacks=slacks)
 table_1, base_1, result =  pep(table_1, base_1, True, slacks)
 
+print("Second Phase")
 table_2 = np.array([np.concatenate((row[:3], row[-3:])) for row in table_1])
 table_2[-1, 1] = 14
 table_2[-1, -1] = 3
@@ -26,3 +27,4 @@ slacks = 3
 
 display_table(table_2, base_2, slacks=slacks)
 table_2, base_2, result = pep(table_2, base_2, True, slacks)
+print(get_basic_solution(table_2, base_2))
