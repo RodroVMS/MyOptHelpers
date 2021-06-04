@@ -28,7 +28,7 @@ def add_condition_to_table(table:np.ndarray, base, new_condition, slacks = 0):
     new_base = base + [len(row) - 1] # New var is now base
     return new_table, new_base, slacks + 1
 
-def display_table(table, base, next_vect = None, out_vect = None, slacks = 0):
+def display_table(table, base, next_vect = None, out_vect = None, slacks = 0):    
     d = {"Xb": [f"x{i + 1}" if i < len(table[0]) - 1 - slacks else f"s{i - len(table[0]) + slacks + 2}" for i in base] + ["rj"]}
     
     for row in table:
@@ -50,13 +50,51 @@ def display_table(table, base, next_vect = None, out_vect = None, slacks = 0):
         next_name = f"x{next_vect + 1}" if next_vect < len(table[0]) -1 -slacks else f"s{next_vect - len(table[0]) + slacks + 2}"
         out_name = f"x{out_vect + 1}" if out_vect < len(table[0]) -1 -slacks else f"s{out_vect - len(table[0]) + slacks + 2}"
         print(f"In {next_name}. Out {out_name}.")
+    
+    #print(display_table_md(table, base, slacks))
     print(df.to_string(index=False), "\n")
+
+def display_table_md(table, base, slacks = 0):
+    total_vars = len(table[0]) - 1
+    header = "| $X_b$ | " + " | ".join([var_name(total_vars, slacks, i) for i in range(total_vars)]) + " | $y_0$ |\n"
+    header += "|" + "|".join(["----" for _ in range(total_vars + 2)]) + "|\n"
+    for i, row in enumerate(table):
+        row_str = ""
+        for j, val in enumerate(row):
+            if j == 0:
+                if i == len(table) - 1:
+                    row_str += "| $r_j$ | "
+                else:
+                    row_str += f"| {var_name(total_vars, slacks, base[i])} | "
+            if i == len(table) - 1 and j == len(row) - 1:
+                row_str += " |"
+                continue
+            row_str += (str(int(val)) if val == get_int(val) else format(val, ".2f")) + " | "
+        header += row_str + "\n"
+    return header
+
+def var_name(total_var, slacks, i):
+    if i < total_var - slacks:
+        return r"$x_{"+ str(i + 1) +r"}$"
+    else:
+        return r"$s_{" + str(i - total_var + slacks + 1) + r"}$"
+
 
 def is_feasible_simplex(table) -> bool:
     return not any(table[:, -1][:-1] < 0)
 
 def is_feasible_dual_simplex(table) -> bool:
     return not any(table[-1][:-1] < 0)
+
+def get_basic_solution(table, base:list):
+    basic = []
+    for i in range(len(table[0])):
+        try:
+            index = base.index(i)
+            basic.append(table[:, -1][index])
+        except ValueError:
+            basic.append(0)
+    return "(" + ", ".join([str(int(val)) for val in basic]) + ")"
 
 def pure_integer_vector(y0):
     for val in y0:
