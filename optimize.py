@@ -1,20 +1,21 @@
 import numpy as np
 from OptTools import simplex, dual_simplex, gomori_pi, pep
 
-def optimize(method:str, inital_table:np.ndarray, usr_options:dict = dict()):
+def optimize(method:str, inital_table:np.ndarray, initial_base:list, usr_options:dict = dict()):
     options = set_options(usr_options)
     if method == "simplex":
-        pass
+        return simplex(inital_table, initial_base, options["slacks"], options["display"])
 
     if method == "dual-simplex":
-        pass
+        return dual_simplex(inital_table, initial_base, options["slacks"], options["display"])
 
     if method == "gomori-pi":
-        pass
+        return gomori_pi(inital_table, initial_base, options["slacks"], options["display"])
 
     if method == "pep":
-        pass
+        return pep(inital_table, initial_base, options["slacks"], options["display"])
 
+    raise NotImplementedError(f"{method}")
     if method == "balas":
         pass
 
