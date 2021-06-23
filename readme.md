@@ -5,10 +5,16 @@ It shows step by step the way simplex, dual simplex, gomori and primal todo ente
 Is a little lame rigth now. Put your files in the root and import the module or move them around.
 
 ## Test Execution
-From outside the root run 
+Execute:
 
-> python -m <Folder_Name>.Examples.Ex1.py
+> python run_examples.py \<example_num\>
+
+A valid command:
+
+> python run_examples.py ex3
+
+There are only three examples.
 
 ## How to use it?
-Open the folder Examples and open the .py inside to have an idea...
+Check the code in examples
 
