@@ -6,7 +6,7 @@ from .utils import is_feasible_simplex, update_table, display_table
 #  .
 # rj | r1 | ... | rn |-z0
 
-def simplex(table, base, display=True, slacks = 0):
+def simplex(table, base, slacks, display):
     if not is_feasible_simplex(table):
         print("Unfeasible solution.")
         return table, base, False
@@ -27,7 +27,7 @@ def simplex(table, base, display=True, slacks = 0):
     if display:
         display_table(table, base, next_vect, dummy, slacks)
     
-    return simplex(table, base, display, slacks=slacks)
+    return simplex(table, base, slacks, display)
     
 def next_vector(table, base):
     minimum_ind = -1

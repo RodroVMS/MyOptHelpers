@@ -27,12 +27,12 @@ def example1():
     
     print("Solving with Gomori")
     display_table(table_1, base_1, slacks=slacks)
-    table_1, base_1, result = gomori_pi(table_1, base_1, True, slacks)
+    table_1, base_1, result = gomori_pi(table_1, base_1, slacks, True)
     print(get_basic_solution(table_1, base_1))
     
     print("\nSolving with pep")
     display_table(table_2, base_2, slacks=slacks)
-    table_2, base_2, result = pep(table_2, base_2, True, slacks)
+    table_2, base_2, result = pep(table_2, base_2, slacks, True)
     print(get_basic_solution(table_2, base_2))
 
 def example2():
@@ -64,7 +64,7 @@ def example2():
     print("Applying Gomori")
     print("First Phase")
     display_table(table_1, base_1, slacks=slacks)
-    table_1, base_1, result =  simplex(table_1, base_1, True, slacks)
+    table_1, base_1, result =  simplex(table_1, base_1, slacks, True)
 
     print("Second Phase")
     slacks = 1
@@ -74,12 +74,12 @@ def example2():
     base_2 = [0, 2]
 
     display_table(table_2, base_2, slacks=slacks)
-    table_2, base_2, result = gomori_pi(table_2, base_2, True, slacks)
+    table_2, base_2, result = gomori_pi(table_2, base_2, slacks, True)
 
     print("\nApplying PEP")
     print("First Phase")
     display_table(table_3, base_3, slacks=2)
-    table_3, base_3, result = pep(table_3, base_3, True, slacks=2)
+    table_3, base_3, result = pep(table_3, base_3, slacks=2, display=True)
     print(get_basic_solution(table_3, base_3))
     print("First Phase minimum value is non zero due to s2 != 0. The problem cannot be solved")
 
@@ -97,7 +97,7 @@ def example3():
 
     print("First Phase")
     display_table(table_1, base_1, slacks=slacks)
-    table_1, base_1, result =  pep(table_1, base_1, True, slacks)
+    table_1, base_1, result =  pep(table_1, base_1, slacks, True)
 
     print("Second Phase")
     table_2 = np.array([np.concatenate((row[:3], row[-3:])) for row in table_1])
@@ -109,7 +109,7 @@ def example3():
     slacks = 3
 
     display_table(table_2, base_2, slacks=slacks)
-    table_2, base_2, result = pep(table_2, base_2, True, slacks)
+    table_2, base_2, result = pep(table_2, base_2, slacks, display=True)
     print(get_basic_solution(table_2, base_2))
 
 

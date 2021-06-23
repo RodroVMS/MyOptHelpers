@@ -7,7 +7,7 @@ from .utils import display_table, is_feasible_dual_simplex, update_table
 #  .
 # rj | r1 | ... | rn |-z0
 
-def dual_simplex(table, base, display=True, slacks=0):
+def dual_simplex(table, base, slacks, display):
     if not is_feasible_dual_simplex(table):
         print("Non dual-feasible solution")
         return table, base, False
@@ -28,7 +28,7 @@ def dual_simplex(table, base, display=True, slacks=0):
     if display:
         display_table(table, base, next_vect, dummy, slacks)
     
-    return dual_simplex(table, base, display, slacks)
+    return dual_simplex(table, base, slacks, display)
 
 
 def next_vector(table, base, out_vect):

@@ -2,7 +2,7 @@ from .utils import add_condition_to_table, display_table, get_int, is_feasible_d
 from .simplex import next_vector
 from .dual_simplex import dual_simplex
 
-def pep(table, base, display=True, slacks=0):
+def pep(table, base, slacks, display):
     if not is_feasible_simplex(table):
         print("Unfeasible solution.")
         return table, base, False
@@ -31,9 +31,9 @@ def pep(table, base, display=True, slacks=0):
             display_table(new_table, new_base, slacks=slacks)
         if is_feasible_dual_simplex(table):
             print("Re-Optimizing with dual-simplex.")
-            new_table, new_base, result = dual_simplex(new_table, new_base, display, slacks)
+            new_table, new_base, result = dual_simplex(new_table, new_base, slacks, display)
     
-    return pep(new_table, new_base, display, slacks)
+    return pep(new_table, new_base, slacks, display)
 
 def out_vector(table, col):
     out_val = 2**32
