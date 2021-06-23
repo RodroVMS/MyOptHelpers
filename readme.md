@@ -2,7 +2,16 @@
 It shows step by step the way simplex, dual simplex, gomori and primal todo entero works. Table by table.
 
 ## Execution
-Is a little lame rigth now. Put your files in the root and import the module or move them around.
+Download the repo and copy it to where you want to use it.
+
+```python
+from MyOpt import optimize
+
+final_table, final_base, result = optimize(method, table, base, options)
+```
+
+Implemented methods are: Simplex, Dual-Simplex, Gomori Pi and Primal All Integer.
+
 
 ## Test Execution
 Execute:
