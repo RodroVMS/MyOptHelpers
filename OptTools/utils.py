@@ -56,7 +56,7 @@ def display_table(table, base, next_vect = None, out_vect = None, slacks = 0):
 
 def display_table_md(table, base, slacks = 0):
     total_vars = len(table[0]) - 1
-    header = "| $X_b$ | " + " | ".join([var_name(total_vars, slacks, i) for i in range(total_vars)]) + " | $y_0$ |\n"
+    header = "| $X_b$ | " + " | ".join([var_name_md(total_vars, slacks, i) for i in range(total_vars)]) + " | $y_0$ |\n"
     header += "|" + "|".join(["----" for _ in range(total_vars + 2)]) + "|\n"
     for i, row in enumerate(table):
         row_str = ""
@@ -65,7 +65,7 @@ def display_table_md(table, base, slacks = 0):
                 if i == len(table) - 1:
                     row_str += "| $r_j$ | "
                 else:
-                    row_str += f"| {var_name(total_vars, slacks, base[i])} | "
+                    row_str += f"| {var_name_md(total_vars, slacks, base[i])} | "
             if i == len(table) - 1 and j == len(row) - 1:
                 row_str += " |"
                 continue
@@ -73,7 +73,7 @@ def display_table_md(table, base, slacks = 0):
         header += row_str + "\n"
     return header
 
-def var_name(total_var, slacks, i):
+def var_name_md(total_var, slacks, i):
     if i < total_var - slacks:
         return r"$x_{"+ str(i + 1) +r"}$"
     else:
