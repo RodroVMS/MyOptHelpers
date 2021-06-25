@@ -1,3 +1,5 @@
+from OptTools.balas import balas
+from OptTools.utils import get_float64_ndarray
 import sys
 import numpy as np
 from OptTools import display_table, simplex, gomori_pi, pep, get_basic_solution
@@ -112,7 +114,26 @@ def example3():
     table_2, base_2, result = pep(table_2, base_2, slacks, display=True)
     print(get_basic_solution(table_2, base_2))
 
+def example4():
+    c = get_float64_ndarray(
+        [-5, -7, -10, -3, -1]
+    )
+    A = get_float64_ndarray(
+        [
+            [-1,  3, -5, -1,  4],
+            [ 2, -6,  3,  2, -2],
+            [ 0,  1, -2,  1,  1]
+        ]
+    )
+    b = get_float64_ndarray(
+        [-2, 0, -1]
+    )
 
-if __name__ == "__main__":
-    args = sys.argv[1:]
-    main(*args)
+    result, x_e, z_e = balas(c, A, b, display=True)
+
+# if __name__ == "__main__":
+#     args = sys.argv[1:]
+#     main(*args)
+
+example4()
+
