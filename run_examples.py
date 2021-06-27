@@ -2,7 +2,7 @@ from OptTools.balas import balas
 from OptTools.utils import get_float64_ndarray
 import sys
 import numpy as np
-from OptTools import display_table, simplex, gomori_cut, pep, get_basic_solution
+from OptTools import display_table, simplex, gomori_cut, primal_cut, get_basic_solution
 
 def main(arg):
     if arg in {"ex1", "ej1", "1"}:
@@ -34,7 +34,7 @@ def example1():
     
     print("\nSolving with pep")
     display_table(table_2, base_2, slacks=slacks)
-    table_2, base_2, result = pep(table_2, base_2, slacks, True)
+    table_2, base_2, result = primal_cut(table_2, base_2, slacks, True)
     print(get_basic_solution(table_2, base_2))
 
 def example2():
@@ -81,7 +81,7 @@ def example2():
     print("\nApplying PEP")
     print("First Phase")
     display_table(table_3, base_3, slacks=2)
-    table_3, base_3, result = pep(table_3, base_3, slacks=2, display=True)
+    table_3, base_3, result = primal_cut(table_3, base_3, slacks=2, display=True)
     print(get_basic_solution(table_3, base_3))
     print("First Phase minimum value is non zero due to s2 != 0. The problem cannot be solved")
 
@@ -99,7 +99,7 @@ def example3():
 
     print("First Phase")
     display_table(table_1, base_1, slacks=slacks)
-    table_1, base_1, result =  pep(table_1, base_1, slacks, True)
+    table_1, base_1, result =  primal_cut(table_1, base_1, slacks, True)
 
     print("Second Phase")
     table_2 = np.array([np.concatenate((row[:3], row[-3:])) for row in table_1])
@@ -111,7 +111,7 @@ def example3():
     slacks = 3
 
     display_table(table_2, base_2, slacks=slacks)
-    table_2, base_2, result = pep(table_2, base_2, slacks, display=True)
+    table_2, base_2, result = primal_cut(table_2, base_2, slacks, display=True)
     print(get_basic_solution(table_2, base_2))
 
 def example4():

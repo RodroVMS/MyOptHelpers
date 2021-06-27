@@ -1,5 +1,5 @@
 import numpy as np
-from .OptTools import simplex, dual_simplex, gomori_cut, pep
+from .OptTools import simplex, dual_simplex, gomori_cut, primal_cut
 
 def optimize(method:str, inital_table:np.ndarray, initial_base:list, usr_options:dict = dict()):
     options = set_options(usr_options)
@@ -13,7 +13,7 @@ def optimize(method:str, inital_table:np.ndarray, initial_base:list, usr_options
         return gomori_cut(inital_table, initial_base, options["slacks"], options["display"])
 
     if method == "pep":
-        return pep(inital_table, initial_base, options["slacks"], options["display"])
+        return primal_cut(inital_table, initial_base, options["slacks"], options["display"])
 
     raise NotImplementedError(f"{method}")
     if method == "balas":
