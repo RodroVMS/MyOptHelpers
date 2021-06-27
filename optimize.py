@@ -1,5 +1,5 @@
 import numpy as np
-from OptTools import simplex, dual_simplex, gomori_pi, pep
+from .OptTools import simplex, dual_simplex, gomori_pi, pep
 
 def optimize(method:str, inital_table:np.ndarray, initial_base:list, usr_options:dict = dict()):
     options = set_options(usr_options)
