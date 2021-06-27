@@ -2,7 +2,7 @@ from OptTools.balas import balas
 from OptTools.utils import get_float64_ndarray
 import sys
 import numpy as np
-from OptTools import display_table, simplex, gomori_pi, pep, get_basic_solution
+from OptTools import display_table, simplex, gomori_cut, pep, get_basic_solution
 
 def main(arg):
     if arg in {"ex1", "ej1", "1"}:
@@ -29,7 +29,7 @@ def example1():
     
     print("Solving with Gomori")
     display_table(table_1, base_1, slacks=slacks)
-    table_1, base_1, result = gomori_pi(table_1, base_1, slacks, True)
+    table_1, base_1, result = gomori_cut(table_1, base_1, slacks, True)
     print(get_basic_solution(table_1, base_1))
     
     print("\nSolving with pep")
@@ -76,7 +76,7 @@ def example2():
     base_2 = [0, 2]
 
     display_table(table_2, base_2, slacks=slacks)
-    table_2, base_2, result = gomori_pi(table_2, base_2, slacks, True)
+    table_2, base_2, result = gomori_cut(table_2, base_2, slacks, True)
 
     print("\nApplying PEP")
     print("First Phase")

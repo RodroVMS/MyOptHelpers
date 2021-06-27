@@ -1,5 +1,5 @@
 import numpy as np
-from .OptTools import simplex, dual_simplex, gomori_pi, pep
+from .OptTools import simplex, dual_simplex, gomori_cut, pep
 
 def optimize(method:str, inital_table:np.ndarray, initial_base:list, usr_options:dict = dict()):
     options = set_options(usr_options)
@@ -10,7 +10,7 @@ def optimize(method:str, inital_table:np.ndarray, initial_base:list, usr_options
         return dual_simplex(inital_table, initial_base, options["slacks"], options["display"])
 
     if method == "gomori-pi":
-        return gomori_pi(inital_table, initial_base, options["slacks"], options["display"])
+        return gomori_cut(inital_table, initial_base, options["slacks"], options["display"])
 
     if method == "pep":
         return pep(inital_table, initial_base, options["slacks"], options["display"])

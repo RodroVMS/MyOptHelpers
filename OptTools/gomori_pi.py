@@ -3,7 +3,7 @@ from .simplex import simplex
 from .utils import add_condition_to_table, display_table, get_decimals, is_feasible_dual_simplex, is_feasible_simplex, pure_integer_vector
 
 
-def gomori_pi(table, base, slacks, display):
+def gomori_cut(table, base, slacks, display):
     result = False
     if is_feasible_simplex(table):
         print("Minimizing with simplex")
@@ -31,7 +31,7 @@ def gomori_pi(table, base, slacks, display):
     print("Re-Optimizing with Dual-Simplex")
     new_table, new_base, result = dual_simplex(new_table, new_base, slacks, display)
     
-    return gomori_pi(new_table, new_base, slacks, display)
+    return gomori_cut(new_table, new_base, slacks, display)
 
 
 def get_condition_rows(table, base):
