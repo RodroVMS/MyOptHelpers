@@ -25,7 +25,7 @@ def add_condition_to_table(table:np.ndarray, base, new_condition, slacks = 0):
     new_table[-2] = np.array(new_condition)
     new_table[-1] = np.concatenate((table[-1][:-1], [0], table[-1][-1:]))
 
-    new_base = base + [len(table) - 1] # New var is now base
+    new_base = base + [len(table[0]) - 1] # New var is now base
     return new_table, new_base, slacks + 1
 
 def display_table(table, base, next_vect = None, out_vect = None, slacks = 0):    
