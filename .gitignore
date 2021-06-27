@@ -18,3 +18,5 @@ devdeb.py
 ex2.py
 devdeb2.py
 OptTools/__pycache__/balas.cpython-37.pyc
+__pycache__/__init__.cpython-37.pyc
+__pycache__/optimize.cpython-37.pyc
