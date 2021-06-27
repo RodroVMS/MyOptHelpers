@@ -1,1 +1,1 @@
-from optimize import optimize
+from .optimize import optimize
