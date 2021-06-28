@@ -15,14 +15,15 @@ def land_doig(func, start_table:np.ndarray, start_base:list, start_slacks:int = 
     table_e = np.array([])
     base_e = []
     slacks_e = -1
+    number_e = -1
     z_e = MAX_VAL
 
     pending = [(start_table.copy(), tuple(start_base), start_slacks, total_node_num)]
     while len(pending) > 0:
         table, tup_base, slacks, node_num = pending.pop(-1)
         base = list(tup_base)
-        print("-------------- -------------- --------------")
-        print(f"Solving Node{node_num}")
+        print("\n-------------- -------------- --------------")
+        print(f"Solving Node({node_num})")
         display_table(table, base, slacks=slacks)
 
 
@@ -55,7 +56,8 @@ def land_doig(func, start_table:np.ndarray, start_base:list, start_slacks:int = 
             table_e = table
             base_e = base
             slacks_e = slacks
-            print(f"Pure integer found. Updating z_e = {z_e}")
+            number_e = node_num
+            print(f"Pure integer found. Updating ze = {z_e}")
             continue
 
         for i, y_i in enumerate(table[:, -1]):
@@ -64,27 +66,27 @@ def land_doig(func, start_table:np.ndarray, start_base:list, start_slacks:int = 
                 table_le, base_le, slacks_le = add_condition_to_table(table, base, new_cond_le, slacks)
                 table_ge, base_ge, slacks_ge = add_condition_to_table(table, base, new_cond_ge, slacks)
 
-                table_le, base_le =  update_table(table_le, base_le, base_le[i], i)
-                print("Applying dual simplex-le")
-                table_le, base_le, result = dual_simplex(table_le, base_le, slacks_le, display=False)
-                if result:
-                    pending.append((table_le, tuple(base_le), slacks_le, total_node_num + 2))
-
                 print("Applying dual simplex-ge")
                 table_ge, base_ge = update_table(table_ge, base_ge, base_ge[i], i)
                 table_ge, base_ge, result = dual_simplex(table_ge, base_ge, slacks_ge, display=True)
                 if result:   
-                    pending.append((table_ge, tuple(base_ge), slacks_ge, total_node_num + 1))
+                    pending.append((table_ge, tuple(base_ge), slacks_ge, total_node_num + 2))
                 
+                table_le, base_le =  update_table(table_le, base_le, base_le[i], i)
+                print("Applying dual simplex-le")
+                table_le, base_le, result = dual_simplex(table_le, base_le, slacks_le, display=False)
+                if result:
+                    pending.append((table_le, tuple(base_le), slacks_le, total_node_num + 1))
+
                 total_node_num += 2
                 break
         
-    print("-------------- -------------- --------------")
+    print("\n-------------- -------------- --------------")
     if z_e == MAX_VAL:
         print("Problam has no factible solution")
         return table_e, base_e, False
     
-    print("Solution found:")
+    print(f"Solution found on Node({number_e}):")
     print(f"ze: {z_e}")
     print(f"xe: {x_e}")
     print(f"xse: {xs_e}")
