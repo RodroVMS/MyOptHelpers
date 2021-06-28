@@ -52,7 +52,7 @@ def balas(c:np.ndarray, A:np.ndarray, b:np.ndarray, display:bool=False):
                 w_e = w_k
                 output += f"\nUpdated ze: {z_e}"
             else:
-                output += f"\nze not improved {z_e} < {z_k}"
+                output += f"\nze not improved: {z_e} < {z_k}"
             continue
         else:
             output += "\nx^ is not factible."
@@ -97,8 +97,6 @@ def balas(c:np.ndarray, A:np.ndarray, b:np.ndarray, display:bool=False):
         max_node_num += 2
     
     output += "\n-------------- -------------- --------------" 
-    
-
     if z_e == MIN_VAL:
         output += "\nUnfeasible solution"
         if display:
