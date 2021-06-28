@@ -44,7 +44,8 @@ def display_table(table, base, next_vect = None, out_vect = None, slacks = 0):
                 d[key].append(format(row[j], ".2f"))
             except KeyError:
                 d[key] = [format(row[j], ".2f")]
-    
+
+    d['y0'][-1] = ""
     df = pd.DataFrame(d)
     if next_vect is not None and out_vect is not None:
         next_name = f"x{next_vect + 1}" if next_vect < len(table[0]) -1 -slacks else f"s{next_vect - len(table[0]) + slacks + 2}"
