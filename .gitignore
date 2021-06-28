@@ -23,3 +23,5 @@ __pycache__/optimize.cpython-37.pyc
 __pycache__/custom.cpython-37.pyc
 OptTools/__pycache__/gomori_cut.cpython-37.pyc
 OptTools/__pycache__/primal_cut.cpython-37.pyc
+OptTools/__pycache__/const.cpython-37.pyc
+OptTools/__pycache__/land_doig.cpython-37.pyc
