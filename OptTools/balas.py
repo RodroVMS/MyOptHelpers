@@ -42,27 +42,25 @@ def balas(c:np.ndarray, A:np.ndarray, b:np.ndarray, display:bool=False):
         output += "\n-------------- -------------- --------------"  
         output += f"\nNode({node_num}):\nx: {x_str}\nz: {z_k}\nze: {z_e}"
 
-        if z_k >= z_e:
-            output += "\nNot expanded(Already explored)."
-            continue
-
         s_k = get_sk(A, b, w_k_1)
         if np.all(s_k >= 0):
-            z_e = z_k
-            x_e = x_k.copy()
-            w_e = w_k
             output += "\nx^ is factible. Found optimum solution for subproblem."
-            output += f"\nUpdated ze: {z_e}"
+            
+            if z_k < z_e:
+                z_e = z_k
+                x_e = x_k.copy()
+                w_e = w_k
+                output += f"\nUpdated ze: {z_e}"
+            else:
+                output += f"\nze not improved {z_e} < {z_k}"
             continue
         else:
             output += "\nx^ is not factible."
 
         Q_k = [i for (i, s_k_i) in enumerate(s_k) if s_k_i < 0]
-        for i in Q_k:
-            t_i = sum(min(0, A[i, j]) for j in L_k)
-            if t_i > s_k[i]:
-                output += "\nNode cannot be factible, nor it's descendants."
-                continue
+        if not factible(A, L_k, Q_k, s_k):
+            output += "\nNode cannot be factible, nor it's descendants."
+            continue
         
         R_k = []
         for j in L_k:
@@ -111,6 +109,14 @@ def balas(c:np.ndarray, A:np.ndarray, b:np.ndarray, display:bool=False):
         output += f"\nSolution:\nxe: {display_x(x_e, w_e)}\nze: {z_e}"
         print(output)
     return True, x_e, z_e
+
+def factible(A, L_k, Q_k, s_k) -> bool:
+    for i in Q_k:
+        t_i = sum(min(0, A[i, j]) for j in L_k)
+        if t_i > s_k[i]:
+            return False
+    return True
+
 
 def get_sk(A, b, w_k_1) -> np.ndarray: 
     A_k_1 =  A[:, w_k_1]
