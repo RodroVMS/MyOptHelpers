@@ -1,0 +1,2 @@
+MAX_VAL = 2**32 - 1
+MIN_VAL = (-1)*MAX_VAL

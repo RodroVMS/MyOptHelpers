@@ -1,11 +1,9 @@
 from typing import List, Tuple
 import numpy as np
-from collections import deque
-from itertools import product
+from .const import MAX_VAL, MIN_VAL
 
 
-MAX_VAL = 2**32 - 1
-MIN_VAL = (-1)*MAX_VAL
+
 
 def balas(c:np.ndarray, A:np.ndarray, b:np.ndarray, display:bool=False):
     """

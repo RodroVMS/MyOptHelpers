@@ -86,21 +86,27 @@ def is_feasible_simplex(table) -> bool:
 def is_feasible_dual_simplex(table) -> bool:
     return not any(table[-1][:-1] < 0)
 
-def get_basic_solution(table, base:list):
+def get_basic_solution(table, base):
     basic = []
-    for i in range(len(table[0])):
+    for i in range(len(table[0]) - 1):
         try:
             index = base.index(i)
             basic.append(table[:, -1][index])
         except ValueError:
             basic.append(0)
-    return "(" + ", ".join([str(int(val)) for val in basic]) + ")"
+    return  basic #
+
+def basic_solution_str(basic:list):
+    return "(" + ", ".join(str(int(val)) if val == get_int(val) else format(val, ".2f") for val in basic) + ")"
 
 def pure_integer_vector(y0):
     for val in y0:
-        if val - np.floor(val) >=  1e-9:
+        if not pure_integer_value(val):
             return False
     return True
+
+def pure_integer_value(val):
+    return val - np.floor(val) <= 1e-9
 
 def get_decimals(val):
     return val - np.floor(val)
@@ -110,8 +116,3 @@ def get_int(val):
 
 def get_float64_ndarray(l:list):
     return np.array(l, dtype="float64")
-# a = np.full((3,), 1)
-# b = np.full((3,), 2)
-# 
-# c = np.concatenate((a,b))
-# print(c)
