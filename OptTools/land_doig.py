@@ -69,7 +69,7 @@ def land_doig(func, start_table:np.ndarray, start_base:list, start_slacks:int = 
                 deg_i_plus = 1 - deg_i_neg
                 deg_i = min(deg_i_neg, deg_i_plus)
 
-                degrad_str += f"Deg({var_name(len(table[0]) -1, slacks, i)}) = {format(deg_i, '.4f')}, "
+                degrad_str += f"Deg({var_name(len(table[0]) -1, slacks, base[i])}) = {format(deg_i, '.4f')}, "
                 if deg_i > max_deg:
                     index = i
                     max_deg = deg_i
@@ -78,6 +78,8 @@ def land_doig(func, start_table:np.ndarray, start_base:list, start_slacks:int = 
         new_cond_le, new_cond_ge = form_conditon(table, base, index)
         table_le, base_le, slacks_le = add_condition_to_table(table, base, new_cond_le, slacks)
         table_ge, base_ge, slacks_ge = add_condition_to_table(table, base, new_cond_ge, slacks)
+
+        val = table[index][-1]
 
         print("Applying dual simplex-ge")
         # display_table(table_ge, base_ge, slacks=slacks_ge)
@@ -88,7 +90,7 @@ def land_doig(func, start_table:np.ndarray, start_base:list, start_slacks:int = 
         if result:  
             total_node_num += 1
             print(f"Added child({total_node_num})")
-            pending.append((table_ge, tuple(base_ge), slacks_ge, total_node_num, trail + f"{var_name(len(table_ge[0]) -1, slacks_ge, index)} >= {np.floor(max_deg) + 1}, "))
+            pending.append((table_ge, tuple(base_ge), slacks_ge, total_node_num, trail + f"{var_name(len(table_ge[0]) -1, slacks_ge, base[index])} >= {np.floor(val) + 1}, "))
         
         print("Applying dual simplex-le")
         # display_table(table_le, base_le, slacks=slacks_le)
@@ -99,7 +101,7 @@ def land_doig(func, start_table:np.ndarray, start_base:list, start_slacks:int = 
         if result:
             total_node_num += 1 
             print(f"Added child({total_node_num})")
-            pending.append((table_le, tuple(base_le), slacks_le, total_node_num, trail + f"{var_name(len(table_le[0]) -1, slacks_le, index)} <= {np.floor(max_deg)}, "))
+            pending.append((table_le, tuple(base_le), slacks_le, total_node_num, trail + f"{var_name(len(table_le[0]) -1, slacks_le, base[index])} <= {np.floor(val)}, "))
         
     print("\n-------------- -------------- --------------")
     if z_e == MAX_VAL:
