@@ -1,6 +1,6 @@
 from MyOptHelpers.OptTools.const import MAX_VAL, MIN_VAL
 import numpy as np
-from .utils import add_condition_to_table, basic_solution_str, display_table, get_int, is_feasible_simplex, is_feasible_dual_simplex, get_basic_solution, pure_integer_value, pure_integer_vector, update_table, var_name
+from .utils import add_condition_to_table, basic_solution_str, display_table, get_decimals, get_int, is_feasible_simplex, is_feasible_dual_simplex, get_basic_solution, pure_integer_value, pure_integer_vector, update_table, var_name
 from .simplex import simplex
 from .dual_simplex import dual_simplex
 
@@ -61,12 +61,20 @@ def land_doig(func, start_table:np.ndarray, start_base:list, start_slacks:int = 
             continue
         
         index = len(table[0])
-        min_val = MAX_VAL
+        max_deg = MIN_VAL
+        degrad_str = ""
         for i, y_i in enumerate(table[:, -1]):
-            if not pure_integer_value(y_i) and y_i < min_val and i < len(table) - 1:
-                index = i
-                min_val = y_i
+            if not pure_integer_value(y_i) and i < len(table) - 1:
+                deg_i_neg = get_decimals(y_i)
+                deg_i_plus = 1 - deg_i_neg
+                deg_i = min(deg_i_neg, deg_i_plus)
 
+                degrad_str += f"Deg({var_name(len(table[0]) -1, slacks, i)}) = {format(deg_i, '.4f')}, "
+                if deg_i > max_deg:
+                    index = i
+                    max_deg = deg_i
+
+        print(degrad_str)
         new_cond_le, new_cond_ge = form_conditon(table, base, index)
         table_le, base_le, slacks_le = add_condition_to_table(table, base, new_cond_le, slacks)
         table_ge, base_ge, slacks_ge = add_condition_to_table(table, base, new_cond_ge, slacks)
@@ -80,7 +88,7 @@ def land_doig(func, start_table:np.ndarray, start_base:list, start_slacks:int = 
         if result:  
             total_node_num += 1
             print(f"Added child({total_node_num})")
-            pending.append((table_ge, tuple(base_ge), slacks_ge, total_node_num, trail + f"{var_name(len(table_ge[0]) -1, slacks_ge, index)} >= {np.floor(min_val) + 1}, "))
+            pending.append((table_ge, tuple(base_ge), slacks_ge, total_node_num, trail + f"{var_name(len(table_ge[0]) -1, slacks_ge, index)} >= {np.floor(max_deg) + 1}, "))
         
         print("Applying dual simplex-le")
         # display_table(table_le, base_le, slacks=slacks_le)
@@ -91,7 +99,7 @@ def land_doig(func, start_table:np.ndarray, start_base:list, start_slacks:int = 
         if result:
             total_node_num += 1 
             print(f"Added child({total_node_num})")
-            pending.append((table_le, tuple(base_le), slacks_le, total_node_num, trail + f"{var_name(len(table_le[0]) -1, slacks_le, index)} <= {np.floor(min_val)}, "))
+            pending.append((table_le, tuple(base_le), slacks_le, total_node_num, trail + f"{var_name(len(table_le[0]) -1, slacks_le, index)} <= {np.floor(max_deg)}, "))
         
     print("\n-------------- -------------- --------------")
     if z_e == MAX_VAL:
