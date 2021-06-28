@@ -74,12 +74,17 @@ def display_table_md(table, base, slacks = 0):
         header += row_str + "\n"
     return header
 
+def var_name(total_var, slacks, i):
+    if i < total_var - slacks:
+        return f"x{i+1}"
+    else:
+        return f"s{i - total_var + slacks + 1}"
+
 def var_name_md(total_var, slacks, i):
     if i < total_var - slacks:
         return r"$x_{"+ str(i + 1) +r"}$"
     else:
         return r"$s_{" + str(i - total_var + slacks + 1) + r"}$"
-
 
 def is_feasible_simplex(table) -> bool:
     return not any(table[:, -1][:-1] < 0)
@@ -107,6 +112,8 @@ def pure_integer_vector(y0):
     return True
 
 def pure_integer_value(val):
+    if np.abs(val - np.round(val)) <= 1e-9:
+        return True
     return val - np.floor(val) <= 1e-9
 
 def get_decimals(val):
