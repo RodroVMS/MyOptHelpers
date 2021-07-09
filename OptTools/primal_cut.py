@@ -6,10 +6,14 @@ def primal_cut(table, base, slacks, display):
     if not is_feasible_simplex(table):
         print("Unfeasible solution.")
         return table, base, False
+    
+    if is_feasible_dual_simplex(table):
+        print("Optimal solution found (Dual Factible)")
+        return table, base, True
 
     next_vect = next_vector(table, base)
     if next_vect == -1:
-        print("Optimum found")
+        print("Optimum found(Did not found next vector)")
         return table, base, True
     
     out_vect = out_vector(table, next_vect)
@@ -29,9 +33,6 @@ def primal_cut(table, base, slacks, display):
         if display:
             print("Adding condition.")
             display_table(new_table, new_base, slacks=slacks)
-        if is_feasible_dual_simplex(table):
-            print("Re-Optimizing with dual-simplex.")
-            new_table, new_base, result = dual_simplex(new_table, new_base, slacks, display)
     
     return primal_cut(new_table, new_base, slacks, display)
 
@@ -46,8 +47,8 @@ def out_vector(table, col):
 
         new_val = y_0i/val_ij
         if new_val < out_val:
-          out_val = new_val
-          pos_out = [(i, val_ij)]
+            out_val = new_val
+            pos_out = [(i, val_ij)]
         elif new_val == out_val:
             pos_out.append((i, val_ij))
     
