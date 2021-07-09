@@ -5,7 +5,7 @@ from .const import MAX_VAL, MIN_VAL
 
 
 
-def balas(c:np.ndarray, A:np.ndarray, b:np.ndarray, display:bool=False):
+def balas(c:np.ndarray, A:np.ndarray, b:np.ndarray, display:bool=False, guided:list=[]):
     """
     #### Balas Algorithm:
     Applies balas on a problem of the form:
@@ -80,6 +80,9 @@ def balas(c:np.ndarray, A:np.ndarray, b:np.ndarray, display:bool=False):
                 p = j
                 I_k_p = I_k_j
         
+        if len(guided) > 0:
+            p = guided.pop(0)
+
         output += f"\np = {p}  Ik(p) = {I_k_p}"
         
         w_k1_0 = tuple(sorted([i for i in w_k_0] + [p]))
